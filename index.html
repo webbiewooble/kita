@@ -120,6 +120,20 @@
         padding-right: 1.5rem !important;
       }
 
+      /* Replace Header Text with Logo Image */
+      #root > div > header > div > div:first-child > a:first-child {
+        font-size: 0 !important;
+        color: transparent !important;
+        display: inline-flex;
+        width: 180px;
+        height: 42px;
+        background-image: url("https://kitasystems.com/wp-content/uploads/2024/02/logo-1.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: left center;
+        text-decoration: none !important;
+      }
+
       .sticky.top-0.z-50 nav {
         gap: 1.25rem !important;
         margin-left: 1.5rem !important;
@@ -647,40 +661,41 @@
         }
       }
 
+      .slider-indicators-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        background-color: transparent;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
       .slider-indicators {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
         display: inline-flex;
         justify-content: center;
         gap: 0.75rem;
-        z-index: 10;
-        padding: 0.75rem 1.25rem;
-        background-color: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        padding: 0.5rem 1rem;
+        background-color: #ffffff;
         border-radius: 9999px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
       }
       .slider-dot {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.6);
+        background-color: #cbd5e1;
         border: none;
         cursor: pointer;
         padding: 0;
         transition: all 0.3s ease;
       }
       .slider-dot:hover {
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: #94a3b8;
       }
       .slider-dot.active {
         background-color: #0c336b;
-        transform: scale(1.1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: scale(1.2);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
       .hero-features-bar {
         position: relative;
@@ -807,7 +822,9 @@
             />
           </div>
         </div>
+      </div>
 
+      <div class="slider-indicators-container">
         <div class="slider-indicators" id="slider-indicators">
           <button
             class="slider-dot active"
@@ -1486,7 +1503,8 @@
           let isDragging = false;
 
           function updateSlider() {
-            track.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
+            track.style.transition =
+              "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
             track.style.transform = `translateX(-${currentIndex * 100}%)`;
             dots.forEach((dot, index) => {
               if (index === currentIndex) dot.classList.add("active");
@@ -1522,18 +1540,17 @@
           });
 
           // Touch / Swipe Logic
-          track.addEventListener("touchstart", (e) => {
-            startX = e.touches[0].clientX;
+          function handleDragStart(clientX) {
+            startX = clientX;
             isDragging = true;
             stopAutoSlide();
             track.style.transition = "none"; // Disable transition while dragging for instant feedback
-          }, { passive: true });
+          }
 
-          track.addEventListener("touchmove", (e) => {
+          function handleDragMove(clientX) {
             if (!isDragging) return;
-            currentX = e.touches[0].clientX;
+            currentX = clientX;
             const diffX = currentX - startX;
-            // Prevent scrolling vertically if swiping horizontally, but typical touchmove handles this. Just apply transform:
             const containerWidth = track.clientWidth;
             const percentage = (diffX / containerWidth) * 100;
             // Limit swipe past boundaries
@@ -1545,15 +1562,16 @@
               position = -(currentIndex * 100) + percentage * 0.3;
             }
             track.style.transform = `translateX(${position}%)`;
-          }, { passive: true });
+          }
 
-          track.addEventListener("touchend", (e) => {
+          function handleDragEnd() {
             if (!isDragging) return;
             isDragging = false;
             const diffX = currentX - startX;
             // Reset transition
-            track.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
-            
+            track.style.transition =
+              "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
+
             // If swiped more than 50px, change slide
             if (Math.abs(diffX) > 50) {
               if (diffX > 0) prevSlide();
@@ -1562,6 +1580,51 @@
               updateSlider(); // Snap back
             }
             startAutoSlide();
+          }
+
+          // Touch events
+          track.addEventListener(
+            "touchstart",
+            (e) => {
+              handleDragStart(e.touches[0].clientX);
+            },
+            { passive: true },
+          );
+
+          track.addEventListener(
+            "touchmove",
+            (e) => {
+              handleDragMove(e.touches[0].clientX);
+            },
+            { passive: true },
+          );
+
+          track.addEventListener("touchend", () => {
+            handleDragEnd();
+          });
+
+          // Mouse/Pointer events for desktop swipe
+          track.addEventListener("mousedown", (e) => {
+            if (e.button !== 0) return; // Only left click
+            e.preventDefault(); // Prevent image dragging native behavior
+            handleDragStart(e.clientX);
+          });
+
+          window.addEventListener(
+            "mousemove",
+            (e) => {
+              if (isDragging) {
+                e.preventDefault();
+                handleDragMove(e.clientX);
+              }
+            },
+            { passive: false },
+          );
+
+          window.addEventListener("mouseup", () => {
+            if (isDragging) {
+              handleDragEnd();
+            }
           });
 
           // Pause on hover
