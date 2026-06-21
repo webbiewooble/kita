@@ -116,8 +116,14 @@
       /* Fix Header Spacing constraints */
       .sticky.top-0.z-50 > div {
         max-width: 1400px !important;
-        padding-left: 1.5rem !important;
-        padding-right: 1.5rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      @media (min-width: 768px) {
+        .sticky.top-0.z-50 > div {
+          padding-left: 1.5rem !important;
+          padding-right: 1.5rem !important;
+        }
       }
 
       /* Replace Header Text with Logo Image */
@@ -125,19 +131,27 @@
         font-size: 0 !important;
         color: transparent !important;
         display: inline-flex;
-        width: 180px;
-        height: 42px;
+        width: 140px;
+        height: 32px;
         background-image: url("https://kitasystems.com/wp-content/uploads/2024/02/logo-1.png");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: left center;
         text-decoration: none !important;
       }
+      @media (min-width: 640px) {
+        #root > div > header > div > div:first-child > a:first-child {
+          width: 180px;
+          height: 42px;
+        }
+      }
 
-      .sticky.top-0.z-50 nav {
-        gap: 1.25rem !important;
-        margin-left: 1.5rem !important;
-        margin-right: 1.5rem !important;
+      @media (min-width: 768px) {
+        .sticky.top-0.z-50 nav {
+          gap: 1.25rem !important;
+          margin-left: 1.5rem !important;
+          margin-right: 1.5rem !important;
+        }
       }
 
       /* Specific adjustments for laptops / medium desktops / iframe sizes */
@@ -174,14 +188,16 @@
       }
 
       /* Guarantee zero wrap and absolutely no shrink for logo and Get Quote */
-      .sticky.top-0.z-50 a,
-      .sticky.top-0.z-50 button {
-        white-space: nowrap !important;
-        flex-shrink: 0 !important;
-      }
+      @media (min-width: 768px) {
+        .sticky.top-0.z-50 a,
+        .sticky.top-0.z-50 button {
+          white-space: nowrap !important;
+          flex-shrink: 0 !important;
+        }
 
-      .sticky.top-0.z-50 > div > div {
-        flex-shrink: 0 !important;
+        .sticky.top-0.z-50 > div > div {
+          flex-shrink: 0 !important;
+        }
       }
 
       /* Hide the original React app footer inside #root as the custom index.html footer takes its place */
@@ -651,33 +667,59 @@
       }
       .hero-slide img {
         width: 100%;
-        height: auto;
+        height: 300px;
         display: block;
         object-fit: cover;
+        object-position: center;
+      }
+      @media (min-width: 640px) {
+        .hero-slide img {
+          height: 350px;
+        }
       }
       @media (min-width: 768px) {
         .hero-slide img {
+          height: 450px;
+        }
+      }
+      @media (min-width: 1024px) {
+        .hero-slide img {
+          height: auto;
+          min-height: 450px;
           max-height: 600px;
+          aspect-ratio: 16/7;
         }
       }
 
       .slider-indicators-container {
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
         width: 100%;
         display: flex;
         justify-content: center;
         background-color: transparent;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        z-index: 10;
+        pointer-events: none;
       }
       .slider-indicators {
         display: inline-flex;
         justify-content: center;
         gap: 0.75rem;
         padding: 0.5rem 1rem;
-        background-color: #ffffff;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.85
+        ); /* slightly transparent on image */
         border-radius: 9999px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        pointer-events: auto;
       }
       .slider-dot {
         width: 10px;
@@ -699,13 +741,13 @@
       }
       .hero-features-bar {
         position: relative;
-        margin-top: 3rem;
+        margin-top: -1.5rem; /* pull up slightly over the slider on mobile */
         z-index: 3;
         max-width: 1400px;
         width: 100%;
         margin-left: auto;
         margin-right: auto;
-        padding: 0 1.5rem;
+        padding: 0 1rem;
       }
       @media (min-width: 1024px) {
         .hero-features-bar {
@@ -714,6 +756,7 @@
           left: 0;
           right: 0;
           margin-top: 0;
+          padding: 0 1.5rem;
           transform: translateY(50%);
         }
       }
@@ -723,24 +766,27 @@
         display: flex;
         flex-direction: column;
         color: white;
-        box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         overflow: hidden;
       }
       @media (min-width: 1024px) {
         .hero-features-inner {
           flex-direction: row;
+          box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
         }
       }
       .hero-feature-item {
         flex: 1;
         display: flex;
         align-items: center;
-        padding: 1.5rem;
-        gap: 1.25rem;
+        padding: 1.25rem 1rem;
+        gap: 1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
       @media (min-width: 1024px) {
         .hero-feature-item {
+          padding: 1.5rem;
+          gap: 1.25rem;
           border-bottom: none;
           border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -822,35 +868,35 @@
             />
           </div>
         </div>
-      </div>
 
-      <div class="slider-indicators-container">
-        <div class="slider-indicators" id="slider-indicators">
-          <button
-            class="slider-dot active"
-            data-index="0"
-            aria-label="Go to slide 1"
-          ></button>
-          <button
-            class="slider-dot"
-            data-index="1"
-            aria-label="Go to slide 2"
-          ></button>
-          <button
-            class="slider-dot"
-            data-index="2"
-            aria-label="Go to slide 3"
-          ></button>
-          <button
-            class="slider-dot"
-            data-index="3"
-            aria-label="Go to slide 4"
-          ></button>
-          <button
-            class="slider-dot"
-            data-index="4"
-            aria-label="Go to slide 5"
-          ></button>
+        <div class="slider-indicators-container">
+          <div class="slider-indicators" id="slider-indicators">
+            <button
+              class="slider-dot active"
+              data-index="0"
+              aria-label="Go to slide 1"
+            ></button>
+            <button
+              class="slider-dot"
+              data-index="1"
+              aria-label="Go to slide 2"
+            ></button>
+            <button
+              class="slider-dot"
+              data-index="2"
+              aria-label="Go to slide 3"
+            ></button>
+            <button
+              class="slider-dot"
+              data-index="3"
+              aria-label="Go to slide 4"
+            ></button>
+            <button
+              class="slider-dot"
+              data-index="4"
+              aria-label="Go to slide 5"
+            ></button>
+          </div>
         </div>
       </div>
 
