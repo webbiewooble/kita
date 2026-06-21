@@ -1351,11 +1351,47 @@
           if (!cta || !sol || !stats || !rev || !customHero) return;
 
           const path = window.location.pathname;
-          // Show only on the homepage (e.g. "/", "/index.html", or "/" hash routing)
-          const isHome =
-            path === "/" ||
-            path === "/index.html" ||
-            window.location.hash === "#/";
+          // Check for GitHub Pages subdirectory or index.html
+          const pathSegments = path.split("/").filter(Boolean);
+          const isGithubPagesBase =
+            pathSegments.length === 1 && !pathSegments[0].includes(".html");
+
+          const hash = window.location.hash;
+          const isHashHome =
+            hash === "" ||
+            hash === "#" ||
+            hash === "#/" ||
+            hash.startsWith("#/?");
+
+          // If there is a hash specifying a different route (e.g. #/contact), we are NOT on home.
+          const isKnownNonHomeHash =
+            hash.length > 2 && hash.startsWith("#/") && hash !== "#/";
+
+          let isHome = false;
+          if (!isKnownNonHomeHash) {
+            isHome =
+              path === "/" ||
+              path === "/index.html" ||
+              path.endsWith("/index.html") ||
+              isGithubPagesBase;
+          }
+
+          // Extra safety: check if React is rendering the original hero
+          const root = document.getElementById("root");
+          let originalHero = null;
+          if (root) {
+            const h1s = root.getElementsByTagName("h1");
+            for (let i = 0; i < h1s.length; i++) {
+              if (
+                h1s[i].textContent.includes("Pure Water") ||
+                h1s[i].textContent.includes("Healthier Life")
+              ) {
+                originalHero = h1s[i].closest("section");
+                isHome = true;
+                break;
+              }
+            }
+          }
 
           if (isHome) {
             cta.style.display = "block";
@@ -1364,22 +1400,32 @@
             rev.style.display = "block";
             customHero.style.display = "block";
 
-            const hero = getHeroSection();
-            if (hero) {
-              if (hero.id !== "homepage-custom-hero") {
-                hero.style.display = "none"; // Hide original react hero
+            // If we found the original hero by its h1
+            if (!originalHero) {
+              originalHero = getHeroSection();
+            }
+
+            if (originalHero) {
+              if (originalHero.id !== "homepage-custom-hero") {
+                originalHero.style.display = "none"; // Hide original react hero
                 if (
-                  customHero.parentNode !== hero.parentNode ||
-                  customHero.nextElementSibling !== hero
+                  customHero.parentNode !== originalHero.parentNode ||
+                  customHero.nextElementSibling !== originalHero
                 ) {
-                  hero.parentNode.insertBefore(customHero, hero); // Inject our new custom hero right before it
+                  originalHero.parentNode.insertBefore(
+                    customHero,
+                    originalHero,
+                  ); // Inject our new custom hero right before it
                 }
               }
               if (
                 stats.previousElementSibling !== customHero &&
-                stats.previousElementSibling !== hero
+                stats.previousElementSibling !== originalHero
               ) {
-                hero.parentNode.insertBefore(stats, hero.nextSibling); // Place stats after the old hero (so after customHero and old hero)
+                originalHero.parentNode.insertBefore(
+                  stats,
+                  originalHero.nextSibling,
+                ); // Place stats after the old hero
               }
             }
 
