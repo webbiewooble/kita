@@ -7,6 +7,11 @@
     <script type="module" crossorigin src="./assets/index-CWBHOOU2.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DQqxLPaT.css" />
     <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
       .site-footer {
         background-color: #050d14;
         color: #5e718d;
@@ -348,12 +353,19 @@
       .stats-banner-inner {
         max-width: 950px;
         margin: 0 auto;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-        gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      @media (min-width: 640px) {
+        .stats-banner-inner {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          align-items: center;
+          gap: 1rem;
+        }
       }
       .stat-item {
         display: flex;
@@ -382,7 +394,7 @@
       /* Solutions section styles */
       .homepage-solutions-section {
         background-color: #f8fafc; /* Very light slate-gray, perfectly premium and soft */
-        padding: 5rem 1.5rem;
+        padding: 3rem 1.25rem;
         font-family:
           ui-sans-serif,
           system-ui,
@@ -394,6 +406,11 @@
           Arial,
           sans-serif;
         display: none; /* Controlled dynamically by routing script */
+      }
+      @media (min-width: 640px) {
+        .homepage-solutions-section {
+          padding: 5rem 1.5rem;
+        }
       }
       .solutions-container {
         max-width: 1200px;
@@ -413,7 +430,7 @@
       }
       .solutions-title {
         color: #1a2b66; /* Deep brand navy blue */
-        font-size: 2.25rem;
+        font-size: 1.85rem;
         font-weight: 850;
         margin: 0 0 1rem 0;
         letter-spacing: -0.02em;
@@ -523,7 +540,7 @@
       /* Reviews section styles */
       .homepage-reviews-section {
         background-color: #ffffff; /* Pure white background as seen in the image */
-        padding: 5rem 1.5rem;
+        padding: 3rem 1.25rem;
         font-family:
           ui-sans-serif,
           system-ui,
@@ -535,6 +552,11 @@
           Arial,
           sans-serif;
         display: none; /* Controlled dynamically by routing script */
+      }
+      @media (min-width: 640px) {
+        .homepage-reviews-section {
+          padding: 5rem 1.5rem;
+        }
       }
       .reviews-container {
         max-width: 1200px;
@@ -554,7 +576,7 @@
       }
       .reviews-title {
         color: #1a2b66; /* Deep brand navy blue */
-        font-size: 2.25rem;
+        font-size: 1.85rem;
         font-weight: 850;
         margin: 0 0 1rem 0;
         letter-spacing: -0.02em;
@@ -741,7 +763,7 @@
       }
       .hero-features-bar {
         position: relative;
-        margin-top: -1.5rem; /* pull up slightly over the slider on mobile */
+        margin-top: 1rem;
         z-index: 3;
         max-width: 1400px;
         width: 100%;
@@ -830,7 +852,13 @@
     </style>
   </head>
   <body
-    style="margin: 0; min-height: 100vh; display: flex; flex-direction: column"
+    style="
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    "
   >
     <div id="root" style="flex: 1"></div>
 
@@ -1569,6 +1597,7 @@
           }
 
           function startAutoSlide() {
+            if (isDragging) return;
             stopAutoSlide();
             slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
           }
