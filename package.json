@@ -1,0 +1,13 @@
+{
+  "name": "static-site",
+  "version": "1.0.0",
+  "description": "Static HTML Export",
+  "scripts": {
+    "dev": "npx -y serve . -l 3000",
+    "start": "npx -y serve . -l 3000",
+    "build": "echo 'Already fully static.'"
+  },
+  "dependencies": {
+    "acorn": "^8.17.0"
+  }
+}
