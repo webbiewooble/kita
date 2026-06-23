@@ -7,6 +7,9 @@
     <script type="module" crossorigin src="./assets/index-CWBHOOU2.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DQqxLPaT.css" />
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
       *,
       *::before,
       *::after {
@@ -393,8 +396,8 @@
 
       /* Solutions section styles */
       .homepage-solutions-section {
-        background-color: #f8fafc; /* Very light slate-gray, perfectly premium and soft */
-        padding: 3rem 1.25rem;
+        background: linear-gradient(to bottom, #f8fafc, #ffffff);
+        padding: 4rem 1.25rem;
         font-family:
           ui-sans-serif,
           system-ui,
@@ -406,55 +409,81 @@
           Arial,
           sans-serif;
         display: none; /* Controlled dynamically by routing script */
+        position: relative;
+        overflow: hidden;
+      }
+      .homepage-solutions-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(14, 165, 233, 0.2), transparent);
       }
       @media (min-width: 640px) {
         .homepage-solutions-section {
-          padding: 5rem 1.5rem;
+          padding: 6rem 1.5rem;
         }
       }
       .solutions-container {
         max-width: 1200px;
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
       .solutions-header {
-        margin-bottom: 3.5rem;
-        text-align: left;
+        margin-bottom: 4rem;
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
       }
       .solutions-overline {
-        color: #00a8cc; /* Beautiful bright cyan label */
+        color: #0ea5e9;
         font-size: 0.85rem;
         font-weight: 800;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .solutions-overline::before,
+      .solutions-overline::after {
+        content: "";
+        height: 1px;
+        width: 2rem;
+        background-color: #0ea5e9;
+        opacity: 0.5;
       }
       .solutions-title {
-        color: #1a2b66; /* Deep brand navy blue */
-        font-size: 1.85rem;
+        color: #0f172a;
+        font-size: 2.25rem;
         font-weight: 850;
         margin: 0 0 1rem 0;
         letter-spacing: -0.02em;
-        line-height: 1.15;
+        line-height: 1.2;
       }
       @media (min-width: 640px) {
         .solutions-title {
-          font-size: 2.85rem;
+          font-size: 3.25rem;
         }
       }
       .solutions-subtitle {
-        color: #556080; /* Slate blue-gray */
-        font-size: 1.1rem;
-        line-height: 1.6;
-        max-width: 800px;
+        color: #475569;
+        font-size: 1.125rem;
+        line-height: 1.7;
         margin: 0;
-        letter-spacing: -0.01em;
       }
 
       /* Grid */
       .solutions-grid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1.25rem;
+        gap: 1.5rem;
       }
       @media (min-width: 768px) {
         .solutions-grid {
@@ -466,59 +495,136 @@
         .solutions-grid {
           grid-template-columns: repeat(3, 1fr);
         }
+        /* Bento effect */
+        .solution-card:nth-child(1) { grid-column: span 2; }
+        .solution-card:nth-child(2) { grid-column: span 1; }
+        .solution-card:nth-child(3) { grid-column: span 1; }
+        .solution-card:nth-child(4) { grid-column: span 1; }
+        .solution-card:nth-child(5) { grid-column: span 1; }
+        .solution-card:nth-child(6) { 
+          grid-column: 1 / -1; 
+          display: flex; 
+          flex-direction: row; 
+          align-items: center; 
+          justify-content: space-between; 
+        }
+        .solution-card:nth-child(6) .solution-card-content-wrap {
+          flex: 1;
+        }
+        .solution-card:nth-child(6) .solution-icon-box {
+          margin-bottom: 0;
+          margin-right: 2.5rem;
+          width: 5rem;
+          height: 5rem;
+          flex-shrink: 0;
+        }
+        .solution-card:nth-child(6) svg {
+          width: 2.5rem;
+          height: 2.5rem;
+        }
       }
 
       /* Card style */
       .solution-card {
         background-color: #ffffff;
-        border: 1px solid #e5e9f0; /* Crisp clean border */
-        border-radius: 0.5rem; /* Soft round corners */
-        padding: 2.5rem 2rem;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
-        transition:
-          transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .solution-card::after {
+        content: "";
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: -1;
+        pointer-events: none;
       }
       .solution-card:hover {
-        transform: translateY(-5px);
-        box-shadow:
-          0 20px 25px -5px rgba(0, 0, 0, 0.05),
-          0 10px 10px -5px rgba(0, 0, 0, 0.02);
-        border-color: #d1dbe5;
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 25px 40px -10px rgba(14, 165, 233, 0.15);
+        border-color: #bae6fd;
+      }
+      .solution-card:hover::after {
+        opacity: 1;
+      }
+
+      /* Featured dark cards */
+      .solution-card:nth-child(1),
+      .solution-card:nth-child(4) {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        border-color: transparent;
+      }
+      .solution-card:nth-child(1) .solution-card-title,
+      .solution-card:nth-child(4) .solution-card-title {
+        color: #ffffff;
+      }
+      .solution-card:nth-child(1) .solution-card-desc,
+      .solution-card:nth-child(4) .solution-card-desc {
+        color: #94a3b8;
+      }
+      .solution-card:nth-child(1) .solution-icon-box,
+      .solution-card:nth-child(4) .solution-icon-box {
+        background: rgba(255, 255, 255, 0.1);
+        color: #38bdf8;
+        box-shadow: none;
+      }
+      .solution-card:nth-child(1) .solution-badge,
+      .solution-card:nth-child(4) .solution-badge {
+        background-color: rgba(14, 165, 233, 0.2);
+        color: #bae6fd;
+        border-color: transparent;
+      }
+      .solution-card:hover:nth-child(1),
+      .solution-card:hover:nth-child(4) {
+        box-shadow: 0 25px 40px -10px rgba(15, 23, 42, 0.4);
       }
 
       /* Icon Container */
       .solution-icon-box {
-        width: 3rem;
-        height: 3rem;
-        background-color: #ecfeff; /* Light soft cyan/teal */
-        color: #0ea5e9; /* Beautiful bright cyan icon color */
+        width: 3.5rem;
+        height: 3.5rem;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        color: #0284c7;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 0.5rem;
-        margin-bottom: 2rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1.5rem;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5), 0 4px 6px -1px rgba(14, 165, 233, 0.1);
+        transition: transform 0.3s ease;
+      }
+      .solution-card:hover .solution-icon-box {
+        transform: scale(1.1) rotate(-5deg);
+        background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+        color: white;
       }
       .solution-icon-box svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1.75rem;
+        height: 1.75rem;
         stroke: currentColor;
         fill: none;
       }
 
       .solution-card-title {
-        color: #0f172a; /* Slate 900 */
-        font-size: 1.35rem;
-        font-weight: 800; /* extra bold title */
-        margin: 0 0 0.85rem 0;
+        color: #0f172a;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0 0 0.75rem 0;
         letter-spacing: -0.01em;
       }
       .solution-card-desc {
-        color: #4b5563; /* Reading neutral gray */
-        font-size: 0.95rem;
+        color: #475569;
+        font-size: 1rem;
         line-height: 1.6;
         margin: 0 0 2rem 0;
         flex-grow: 1;
@@ -526,16 +632,25 @@
 
       /* Badge */
       .solution-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        background-color: #f8fafc;
+        color: #334155;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        padding: 0.375rem 0.875rem;
+        border-radius: 9999px;
+        border: 1px solid #e2e8f0;
+      }
+      .solution-badge::before {
+        content: "";
         display: inline-block;
-        background-color: #e0f2fe; /* Light cyan badge-pill */
-        color: #0369a1; /* Vibrant direct cyan text */
-        font-size: 0.8rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        padding: 0.35rem 0.85rem;
-        border-radius: 0.25rem;
-        text-transform: uppercase;
-        white-space: nowrap;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #0ea5e9;
       }
 
       /* Reviews section styles */
@@ -675,93 +790,66 @@
           margin-bottom: 5rem;
         }
       }
-      .hero-slider-wrap {
+      .hero-single-wrap {
         position: relative;
         width: 100%;
         overflow: hidden;
       }
-      .hero-slider-track {
-        display: flex;
-        transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+      .hero-single-wrap img {
         width: 100%;
-      }
-      .hero-slide {
-        min-width: 100%;
-        flex-shrink: 0;
-      }
-      .hero-slide img {
-        width: 100%;
-        height: 300px;
+        height: auto; /* Allow natural aspect ratio */
         display: block;
-        object-fit: cover;
-        object-position: center;
       }
-      @media (min-width: 640px) {
-        .hero-slide img {
-          height: 350px;
-        }
-      }
-      @media (min-width: 768px) {
-        .hero-slide img {
-          height: 450px;
-        }
-      }
-      @media (min-width: 1024px) {
-        .hero-slide img {
-          height: auto;
-          min-height: 450px;
-          max-height: 600px;
-          aspect-ratio: 16/7;
-        }
-      }
-
-      .slider-indicators-container {
+      .hero-explore-overlay {
         position: absolute;
-        bottom: 1rem;
-        left: 0;
-        right: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        background-color: transparent;
-        z-index: 10;
-        pointer-events: none;
-      }
-      .slider-indicators {
-        display: inline-flex;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 0.5rem 1rem;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.85
-        ); /* slightly transparent on image */
-        border-radius: 9999px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        pointer-events: auto;
-      }
-      .slider-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #cbd5e1;
-        border: none;
         cursor: pointer;
-        padding: 0;
+        z-index: 5;
+        left: 8%;
+        top: 60%;
+        padding: 0.8rem 2rem;
+        padding-left: 25px;
+        padding-bottom: 12px;
+        background-color: #050956;
+        color: white;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        border-radius: 9999px;
+        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
         transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13.4px;
+        margin-bottom: -52px;
+        width: 291.288px;
+        height: 46.2px;
+        margin-right: 0px;
+        margin-left: -43px;
+        margin-top: 90px;
       }
-      .slider-dot:hover {
-        background-color: #94a3b8;
+      .hero-explore-overlay:hover {
+        background-color: #0284c7;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
       }
-      .slider-dot.active {
-        background-color: #0c336b;
-        transform: scale(1.2);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      @media (max-width: 639px) {
+        .hero-explore-overlay {
+          left: 50%;
+          transform: translateX(-50%);
+          top: auto;
+          bottom: 15%;
+          padding: 0.75rem 1.5rem;
+          font-size: 0.9rem;
+          width: max-content;
+          height: auto;
+          margin: 0;
+          margin-bottom: -57px;
+        }
+        .hero-explore-overlay:hover {
+          transform: translateX(-50%) translateY(-2px);
+        }
       }
       .hero-features-bar {
         position: relative;
@@ -863,6 +951,10 @@
       .hidden-force {
         display: none !important;
       }
+      header, nav, #root > div > header, .sticky.top-0.z-50 {
+        display: block !important;
+        visibility: visible !important;
+      }
     </style>
   </head>
   <body
@@ -877,69 +969,16 @@
     <div id="root" style="flex: 1"></div>
 
     <section id="homepage-custom-hero" class="hero-banner">
-      <div class="hero-slider-wrap" id="hero-slider-wrap">
-        <div class="hero-slider-track" id="hero-slider-track">
-          <div class="hero-slide">
-            <img
-              src="https://kitasystems.com/wp-content/uploads/2024/04/WhatsApp-Image-2024-04-22-at-10.50.14_42213b39.jpg"
-              alt="Water Purification Banner 1"
-            />
-          </div>
-          <div class="hero-slide">
-            <img
-              src="https://kitasystems.com/wp-content/uploads/2024/02/Blue-Modern-World-Water-Day-Banner-Landscape.png"
-              alt="Water Purification Banner 2"
-            />
-          </div>
-          <div class="hero-slide">
-            <img
-              src="https://kitasystems.com/wp-content/uploads/2024/02/Water-Filters.png"
-              alt="Water Purification Banner 3"
-            />
-          </div>
-          <div class="hero-slide">
-            <img
-              src="https://kitasystems.com/wp-content/uploads/2024/02/Water-Filters-2.png"
-              alt="Water Purification Banner 4"
-            />
-          </div>
-          <div class="hero-slide">
-            <img
-              src="https://kitasystems.com/wp-content/uploads/2024/02/Water-Filters-3.png"
-              alt="Water Purification Banner 5"
-            />
-          </div>
-        </div>
-
-        <div class="slider-indicators-container">
-          <div class="slider-indicators" id="slider-indicators">
-            <button
-              class="slider-dot active"
-              data-index="0"
-              aria-label="Go to slide 1"
-            ></button>
-            <button
-              class="slider-dot"
-              data-index="1"
-              aria-label="Go to slide 2"
-            ></button>
-            <button
-              class="slider-dot"
-              data-index="2"
-              aria-label="Go to slide 3"
-            ></button>
-            <button
-              class="slider-dot"
-              data-index="3"
-              aria-label="Go to slide 4"
-            ></button>
-            <button
-              class="slider-dot"
-              data-index="4"
-              aria-label="Go to slide 5"
-            ></button>
-          </div>
-        </div>
+      <div class="hero-single-wrap">
+        <a href="#homepage-solutions" class="hero-explore-overlay" aria-label="Explore Solutions">Explore Solutions</a>
+        <picture>
+          <source media="(max-width: 639px)" srcset="https://kitasystems.com/wp-content/uploads/2026/06/ChatGPT-Image-Jun-23-2026-11_54_11-AM.png" />
+          <img
+            src="https://kitasystems.com/wp-content/uploads/2026/06/WhatsApp-Image-2026-06-22-at-11.31.54-PM.jpeg"
+            alt="KITA - Smart Technology, Pure Performance. Advanced Water Purification & Softening Solutions for a Healthier Tomorrow."
+            style="width: 100%; height: auto; display: block"
+          />
+        </picture>
       </div>
 
       <div class="hero-features-bar">
@@ -1215,12 +1254,14 @@
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </div>
-            <h3 class="solution-card-title">Water Purifiers</h3>
-            <p class="solution-card-desc">
-              Domestic and industrial RO/UV purifiers. Authorised manufacturer
-              for Nasaka, Blue Mount, Hindware and more.
-            </p>
-            <span class="solution-badge">Domestic · Industrial</span>
+            <div class="solution-card-content-wrap">
+              <h3 class="solution-card-title">Water Purifiers</h3>
+              <p class="solution-card-desc">
+                Domestic and industrial RO/UV purifiers. Authorised manufacturer
+                for Nasaka, Blue Mount, Hindware and more.
+              </p>
+              <span class="solution-badge">Domestic · Industrial</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1403,14 +1444,17 @@
                 images[i].alt.includes("Banner"))
             ) {
               const sec = images[i].closest("section");
-              if (sec && sec.id !== "homepage-custom-hero") return sec;
+              if (sec && sec.id !== "homepage-custom-hero" && !sec.querySelector('header') && !sec.querySelector('nav')) return sec;
             }
           }
           const root = document.getElementById("root");
           if (root) {
             const sections = root.querySelectorAll("section");
             for (let i = 0; i < sections.length; i++) {
-              if (sections[i].id !== "homepage-custom-hero") return sections[i];
+              const sec = sections[i];
+              if (sec.id !== "homepage-custom-hero" && !sec.querySelector('header') && !sec.querySelector('nav')) {
+                return sec;
+              }
             }
           }
           return null;
@@ -1481,7 +1525,11 @@
             }
 
             if (originalHero) {
-              if (originalHero.id !== "homepage-custom-hero") {
+              console.log("Found originalHero:", originalHero.tagName, originalHero.className, originalHero);
+              // Ensure we don't accidentally hide the header/nav if the React structure changed
+              const isHeaderOrNav = originalHero.tagName.toLowerCase() === 'header' || originalHero.tagName.toLowerCase() === 'nav' || originalHero.querySelector('nav') || originalHero.querySelector('header');
+              
+              if (originalHero.id !== "homepage-custom-hero" && !isHeaderOrNav) {
                 originalHero.classList.add("hidden-force");
                 originalHero.style.display = "none"; // Hide original react hero
                 if (
@@ -1493,15 +1541,29 @@
                     originalHero,
                   ); // Inject our new custom hero right before it
                 }
+              } else if (originalHero.id !== "homepage-custom-hero" && isHeaderOrNav) {
+                // If it IS a header/nav, do NOT hide it. Just insert custom hero after it.
+                if (customHero.parentNode !== originalHero.parentNode || customHero.previousElementSibling !== originalHero) {
+                   if (originalHero.nextElementSibling) {
+                     originalHero.parentNode.insertBefore(customHero, originalHero.nextSibling);
+                   } else {
+                     originalHero.parentNode.appendChild(customHero);
+                   }
+                }
               }
+              
               if (
                 stats.previousElementSibling !== customHero &&
                 stats.previousElementSibling !== originalHero
               ) {
-                originalHero.parentNode.insertBefore(
-                  stats,
-                  originalHero.nextSibling,
-                ); // Place stats after the old hero
+                if (!isHeaderOrNav && originalHero.id !== "homepage-custom-hero") {
+                  originalHero.parentNode.insertBefore(
+                    stats,
+                    originalHero.nextSibling,
+                  ); // Place stats after the old hero
+                } else {
+                  customHero.parentNode.insertBefore(stats, customHero.nextSibling);
+                }
               }
             }
 
@@ -1575,165 +1637,7 @@
 
         // Removed MutationObserver to prevent infinite update loops with React DOM
 
-        // Slider Logic
-        function initSlider() {
-          const track = document.getElementById("hero-slider-track");
-          const slides = document.querySelectorAll(".hero-slide");
-          const dots = document.querySelectorAll(".slider-dot");
-
-          if (!track || slides.length === 0) return;
-
-          let currentIndex = 0;
-          const totalSlides = slides.length;
-          let slideInterval;
-          let startX = 0;
-          let currentX = 0;
-          let isDragging = false;
-          let userInteracted = false;
-
-          function updateSlider() {
-            track.style.transition =
-              "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            dots.forEach((dot, index) => {
-              if (index === currentIndex) dot.classList.add("active");
-              else dot.classList.remove("active");
-            });
-          }
-
-          function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateSlider();
-          }
-
-          function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateSlider();
-          }
-
-          function startAutoSlide() {
-            if (isDragging || userInteracted) return;
-            stopAutoSlide();
-            slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
-          }
-
-          function stopAutoSlide() {
-            if (slideInterval) clearInterval(slideInterval);
-          }
-
-          dots.forEach((dot, index) => {
-            dot.addEventListener("click", () => {
-              userInteracted = true;
-              currentIndex = index;
-              updateSlider();
-              stopAutoSlide();
-            });
-          });
-
-          // Touch / Swipe Logic
-          function handleDragStart(clientX) {
-            userInteracted = true;
-            startX = clientX;
-            isDragging = true;
-            stopAutoSlide();
-            track.style.transition = "none"; // Disable transition while dragging for instant feedback
-          }
-
-          function handleDragMove(clientX) {
-            if (!isDragging) return;
-            currentX = clientX;
-            const diffX = currentX - startX;
-            const containerWidth = track.clientWidth;
-            const percentage = (diffX / containerWidth) * 100;
-            // Limit swipe past boundaries
-            let position = -(currentIndex * 100) + percentage;
-            // Optional: add resistance at edges
-            if (currentIndex === 0 && percentage > 0) {
-              position = -(currentIndex * 100) + percentage * 0.3;
-            } else if (currentIndex === totalSlides - 1 && percentage < 0) {
-              position = -(currentIndex * 100) + percentage * 0.3;
-            }
-            track.style.transform = `translateX(${position}%)`;
-          }
-
-          function handleDragEnd() {
-            if (!isDragging) return;
-            isDragging = false;
-            const diffX = currentX - startX;
-            // Reset transition
-            track.style.transition =
-              "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
-
-            // If swiped more than 50px, change slide
-            if (Math.abs(diffX) > 50) {
-              if (diffX > 0) prevSlide();
-              else nextSlide();
-            } else {
-              updateSlider(); // Snap back
-            }
-          }
-
-          // Touch events
-          track.addEventListener(
-            "touchstart",
-            (e) => {
-              handleDragStart(e.touches[0].clientX);
-            },
-            { passive: true },
-          );
-
-          track.addEventListener(
-            "touchmove",
-            (e) => {
-              handleDragMove(e.touches[0].clientX);
-            },
-            { passive: true },
-          );
-
-          track.addEventListener("touchend", () => {
-            handleDragEnd();
-          });
-
-          // Mouse/Pointer events for desktop swipe
-          track.addEventListener("mousedown", (e) => {
-            if (e.button !== 0) return; // Only left click
-            e.preventDefault(); // Prevent image dragging native behavior
-            handleDragStart(e.clientX);
-          });
-
-          window.addEventListener(
-            "mousemove",
-            (e) => {
-              if (isDragging) {
-                e.preventDefault();
-                handleDragMove(e.clientX);
-              }
-            },
-            { passive: false },
-          );
-
-          window.addEventListener("mouseup", () => {
-            if (isDragging) {
-              handleDragEnd();
-            }
-          });
-
-          // Pause on hover
-          const sliderWrap = document.getElementById("hero-slider-wrap");
-          if (sliderWrap) {
-            sliderWrap.addEventListener("mouseenter", stopAutoSlide);
-            sliderWrap.addEventListener("mouseleave", startAutoSlide);
-          }
-
-          startAutoSlide();
-        }
-
-        // Initialize slider on load
-        if (document.readyState === "loading") {
-          window.addEventListener("DOMContentLoaded", initSlider);
-        } else {
-          initSlider();
-        }
+        // Slider logic removed as we now use a single banner image.
 
         // Click handler for smoothly navigating to '/contact'
         document.addEventListener("click", function (e) {
