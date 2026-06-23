@@ -951,10 +951,6 @@
       .hidden-force {
         display: none !important;
       }
-      header, nav, #root > div > header, .sticky.top-0.z-50 {
-        display: block !important;
-        visibility: visible !important;
-      }
     </style>
   </head>
   <body
@@ -1444,17 +1440,14 @@
                 images[i].alt.includes("Banner"))
             ) {
               const sec = images[i].closest("section");
-              if (sec && sec.id !== "homepage-custom-hero" && !sec.querySelector('header') && !sec.querySelector('nav')) return sec;
+              if (sec && sec.id !== "homepage-custom-hero") return sec;
             }
           }
           const root = document.getElementById("root");
           if (root) {
             const sections = root.querySelectorAll("section");
             for (let i = 0; i < sections.length; i++) {
-              const sec = sections[i];
-              if (sec.id !== "homepage-custom-hero" && !sec.querySelector('header') && !sec.querySelector('nav')) {
-                return sec;
-              }
+              if (sections[i].id !== "homepage-custom-hero") return sections[i];
             }
           }
           return null;
@@ -1525,11 +1518,7 @@
             }
 
             if (originalHero) {
-              console.log("Found originalHero:", originalHero.tagName, originalHero.className, originalHero);
-              // Ensure we don't accidentally hide the header/nav if the React structure changed
-              const isHeaderOrNav = originalHero.tagName.toLowerCase() === 'header' || originalHero.tagName.toLowerCase() === 'nav' || originalHero.querySelector('nav') || originalHero.querySelector('header');
-              
-              if (originalHero.id !== "homepage-custom-hero" && !isHeaderOrNav) {
+              if (originalHero.id !== "homepage-custom-hero") {
                 originalHero.classList.add("hidden-force");
                 originalHero.style.display = "none"; // Hide original react hero
                 if (
@@ -1541,29 +1530,15 @@
                     originalHero,
                   ); // Inject our new custom hero right before it
                 }
-              } else if (originalHero.id !== "homepage-custom-hero" && isHeaderOrNav) {
-                // If it IS a header/nav, do NOT hide it. Just insert custom hero after it.
-                if (customHero.parentNode !== originalHero.parentNode || customHero.previousElementSibling !== originalHero) {
-                   if (originalHero.nextElementSibling) {
-                     originalHero.parentNode.insertBefore(customHero, originalHero.nextSibling);
-                   } else {
-                     originalHero.parentNode.appendChild(customHero);
-                   }
-                }
               }
-              
               if (
                 stats.previousElementSibling !== customHero &&
                 stats.previousElementSibling !== originalHero
               ) {
-                if (!isHeaderOrNav && originalHero.id !== "homepage-custom-hero") {
-                  originalHero.parentNode.insertBefore(
-                    stats,
-                    originalHero.nextSibling,
-                  ); // Place stats after the old hero
-                } else {
-                  customHero.parentNode.insertBefore(stats, customHero.nextSibling);
-                }
+                originalHero.parentNode.insertBefore(
+                  stats,
+                  originalHero.nextSibling,
+                ); // Place stats after the old hero
               }
             }
 
